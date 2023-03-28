@@ -146,7 +146,7 @@ void choisir_coup (t_matrice m, int *lig, int *col, int joueur) {
     char c;
     printf ("\nC'est au tour du joueur %d de jouer\n", joueur);
     printf ("Choisissez une case (ex: A1) :\n");
-    scanf ("\n%c", &c);
+    scanf ("\n%c", &c);              // if jour ia recup de fct ia
     /* On change les minuscules en majuscules */
     if ((c >= 'a') && (c < 'a'+N))
         c = c + 'A' - 'a';
