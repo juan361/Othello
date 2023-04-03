@@ -36,3 +36,4 @@ void drawPAWN(SDL_Renderer *renderer, int x, int y, int radius, SDL_Color color)
                 SDL_RenderDrawPoint(renderer, x + dx, y + dy);
         }
 }
+

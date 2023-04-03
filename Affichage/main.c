@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     window = SDL_CreateWindow("Grille de 64 cases", //On crée la fenêtre
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        8*CELL_SIZE,
+        8*CELL_SIZE+300,
         8*CELL_SIZE,
         SDL_WINDOW_SHOWN);
     if(NULL == window)                      //Après avoir créé la fenêtre, on quitte si erreur(s)
@@ -64,11 +64,13 @@ int main(int argc, char *argv[])
     SDL_RenderClear(renderer);      //On met le fond 
 
     SDL_SetRenderDrawColor(renderer, black_color.r, black_color.g, black_color.b, black_color.a);
-    for (int i = 1; i < 8; i++)     //On fait la grille
+    for (int i = 1; i <=8; i++)     //On fait la grille
     {
         SDL_RenderDrawLine(renderer, i*CELL_SIZE, 0, i*CELL_SIZE, 8*CELL_SIZE);
         SDL_RenderDrawLine(renderer, 0, i*CELL_SIZE, 8*CELL_SIZE, i*CELL_SIZE);
     }
+    SDL_Rect rect = {8*CELL_SIZE, 8*CELL_SIZE, 100, 100};
+    SDL_SetRenderDrawColor(renderer, black_color.r,black_color.g,black_color.b,black_color.a);
     
 
 
@@ -84,8 +86,15 @@ int main(int argc, char *argv[])
                     break;
                 case SDL_KEYDOWN:   //Si on appuie sur une touche, on teste laquelle
                     if (event.key.keysym.sym == SDLK_q)
+                    {
                         quit = 1;
                     printf("DEBUG : appui sur touche %d détecté\n", event.key.keysym.sym);
+                    }
+                    break;
+                    if (event.key.keysym.sym == SDLK_ESCAPE)
+                    {
+                        printf("DEBUG : appui sur touche %d détecté\n", event.key.keysym.sym);
+                    }
                     break;
                 case SDL_MOUSEBUTTONDOWN:
                     if (event.button.button == SDL_BUTTON_LEFT)

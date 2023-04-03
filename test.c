@@ -1,4 +1,5 @@
 //gcc main.c $(sdl2-config --cflags --libs)
+
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
