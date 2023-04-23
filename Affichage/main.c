@@ -5,34 +5,28 @@ int main(int argc, char *argv[])
 {
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
+    SDL_Event event;                                        //Variables pour les interractions
+
     int quit = 0;
     int round = 1;
+    int clicX = NULL;
+    int clicY = NULL;
 
-    SDL_Event event;                                        //Variables pour les interractions
-    int clicX = 0;
-    int clicY = 0;
+    int clicTabX = NULL;
+    int clicTabY = NULL;
 
+    int cpt = 0;
+    int win =0;
+    
+    // variable des différentes couleurs
     SDL_Color background_color = {83,147,120,255};          //Couleur de fond
     SDL_Color black_color = {0,0,0,255};                    //Couleur noir
     SDL_Color white_color = {255,255,255,255};              //Couleur blanc
     SDL_Color potential_color = {127,127,127,255};          //Couleur gris
 
-
-    CELL plate[8][8];     //On crée le plateau de jeu
-
-    for (int i = 0; i < 8; i++)
-    {
-        for (int j = 0; j < 8; j++)
-        {
-            plate[i][j] = VIDE;
-        }
-    }
-    plate[3][3] = BLANC;        //On place les 4 pions de départ
-    plate[4][4] = BLANC;
-    plate[3][4] = NOIR;
-    plate[4][3] = NOIR;
+    CASE plate[8][8];     //On crée le plateau de jeu
     
-
+    initCell(plate);
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0)      //On initialise SDL, on quitte si erreur(s)
     {
@@ -40,12 +34,7 @@ int main(int argc, char *argv[])
         quit = 1;
     }
 
-    window = SDL_CreateWindow("Grille de 64 cases", //On crée la fenêtre
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        8*CELL_SIZE+300,
-        8*CELL_SIZE,
-        SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Grille de 64 cases", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 8*CELL_SIZE+300, 8*CELL_SIZE, SDL_WINDOW_SHOWN);//On crée la fenêtre
     if(NULL == window)                      //Après avoir créé la fenêtre, on quitte si erreur(s)
     {
         fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
@@ -101,32 +90,52 @@ int main(int argc, char *argv[])
                     {
                         clicX = event.button.x;
                         clicY = event.button.y;
-                        printf("DEBUG : clic gauche détecté à la position (%d, %d)\n", clicX, clicY);
-                        if (round%2 == 1)
-                            plate[clicX/CELL_SIZE][clicY/CELL_SIZE]=NOIR;
-                        if (round%2 == 0)
-                            plate[clicX/CELL_SIZE][clicY/CELL_SIZE]=BLANC;
-                        round ++;
+
+                        //printf("DEBUG : clic gauche détecté à la position (%d, %d)\n", clicX, clicY);
+                        //printf("DEBUG : clic gauche détecté à la position (%d, %d)\n", clicX/CELL_SIZE, clicY/CELL_SIZE);
+                        if (clicX < 8*CELL_SIZE)
+                        {
+                            if (plate[clicX/CELL_SIZE][clicY/CELL_SIZE].pion==POTENTIEL)
+                            {
+                                if (round%2 == 1)
+                                        plate[clicX/CELL_SIZE][clicY/CELL_SIZE].pion=NOIR;
+                                if (round%2 == 0)
+                                        plate[clicX/CELL_SIZE][clicY/CELL_SIZE].pion=BLANC;
+                                clicTabX=clicX;
+                                clicTabY=clicY;
+                                round ++;
+                            }
+                        }
                     }
                     break;
                 default:
                     break;
             }
         }
-
+        initRound(plate);
+        possibility(plate,playerColor(round),advColor(playerColor(round)));
+        round=checkPlayable( plate, round, cpt);
         for (int i = 0; i < 8; i++)             //On parcours le tableau plate pour afficher les pions
         {
             for (int j = 0; j < 8; j++)
             {
-                if (plate[i][j] == BLANC)
+                if (plate[i][j].pion == BLANC)
                     drawPAWN(renderer, CELL_SIZE/2 + i*CELL_SIZE, CELL_SIZE/2 + j*CELL_SIZE, PAWN_RADIUS, white_color);
-                if (plate[i][j] == NOIR)
+                if (plate[i][j].pion == NOIR)
                     drawPAWN(renderer, CELL_SIZE/2 + i*CELL_SIZE, CELL_SIZE/2 + j*CELL_SIZE, PAWN_RADIUS, black_color);
-                if (plate[i][j] == POTENTIEL)
+                if (plate[i][j].pion == POTENTIEL)
                     drawPAWN(renderer, CELL_SIZE/2 + i*CELL_SIZE, CELL_SIZE/2 + j*CELL_SIZE, POTENTIAL_PAWN_RADIUS, potential_color);
+                if (plate[i][j].pion == VIDE)
+                    drawCARE(renderer, i*CELL_SIZE+1, j*CELL_SIZE+1, CELL_SIZE-1, background_color);
             }
         }
-
+        SDL_RenderPresent(renderer);    // On met a jours le render
+        check(plate, plate[clicTabX/CELL_SIZE][clicTabY/CELL_SIZE]);
+        win = checkWinGame(plate, cpt);
+        if (win == 1)
+            printf("les blancs ont gagné\n");
+        else if (win == 2)
+            printf("les noirs ont gagné\n");
         SDL_RenderPresent(renderer);
     }
 

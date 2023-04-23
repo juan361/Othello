@@ -18,6 +18,25 @@ typedef enum {
     VIDE = 3
 } CELL;
 
+typedef struct plate
+{
+    CELL pion;
+    int posX;
+    int posY;
+    int poids;
+}CASE;
 
 void drawPAWN(SDL_Renderer *renderer, int x, int y, int radius, SDL_Color color);
+void drawCARE(SDL_Renderer *renderer, int x, int y, int LONG, SDL_Color color);
+
+void initCell(CASE plate [8][8]);
+
+void possibility(CASE plateau[8][8], CELL couleurJoueur, CELL couleurAdv);
+void check(CASE plateau[8][8], CASE maCase);
+
+int playerColor (int round);
+int advColor (int couleurJoueur);
+void initRound(CASE plateau[8][8]);
+int checkPlayable(CASE plateau[8][8], int round,int * cptSkipTurn);
+
 #endif
