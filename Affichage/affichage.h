@@ -34,7 +34,7 @@ void drawPAWN(SDL_Renderer *renderer, int x, int y, int radius, SDL_Color color)
 void drawCARE(SDL_Renderer *renderer, int x, int y, int LONG, SDL_Color color);
 
 void initCell(CASE plate [8][8]);
-
+int roundr(int r);
 void possibility(CASE plateau[8][8], CELL couleurJoueur, CELL couleurAdv);
 void check(CASE plateau[8][8], CASE maCase);
 

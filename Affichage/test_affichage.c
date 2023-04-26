@@ -30,7 +30,9 @@ void initCell(CASE plate [8][8])
     plate[4][3].pion = NOIR;
 }
 
-
+int roundr(){
+    return round;
+}
 int playerColor (int round)
 {
     int couleurJoueur;
