@@ -4,7 +4,7 @@
 struct coup
 {
     int tour;
-    int plateau;
+    int** plateau;
     struct noeud* suivant;
     struct noeud* prec;
 };
@@ -35,5 +35,11 @@ void save_coup(struct coup chaine)
 void sauvegarde_txt(struct coup c){
     int r = roundr();
     FILE *fichier = fopen("charger.txt", "w");
-
+    fprintf(fichier, "round : %d\n", round);
+    fprintf(fichier, "tableau : %d\n", entier);
+        for(int i; i < 8; i++){
+            for(int j; j < 8; j++){
+                fprintf(fichier, "%d", plateau[i][j]);
+            }
+        }
 }
