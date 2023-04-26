@@ -13,7 +13,7 @@
 #define POTENTIAL_PAWN_RADIUS 10
 
 #define FONT_PATH "/home/isen/Algo/Proj_2/Othello/resources/font/ARIAL.TTF"
-
+#define PATH_UNDO "/home/isen/Algo/Proj_2/Othello/resources/img/undo.png"
 
 typedef enum {
     NOIR = 0,
@@ -47,7 +47,7 @@ int checkWinGame(CASE plateau[8][8], int cptSkipTurn);
 int cptCase (CASE plateau[8][8]);
 
 void afficherTexte(SDL_Renderer* renderer, const char* texte, int x, int y, TTF_Font* font, SDL_Color color);
-
+void loadImg(SDL_Renderer* renderer, int x, int y);
 
 void gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Font* font);
 #endif

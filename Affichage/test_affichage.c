@@ -30,9 +30,7 @@ void initCell(CASE plate [8][8])
     plate[4][3].pion = NOIR;
 }
 
-int roundr(){
-    return round;
-}
+
 int playerColor (int round)
 {
     int couleurJoueur;
@@ -53,7 +51,6 @@ int advColor (int couleurJoueur)
         advColor = NOIR;
     return (advColor);
 }
-
 
 void possibility(CASE plateau[8][8], CELL couleurJoueur, CELL couleurAdv)
 {
@@ -319,7 +316,6 @@ void check(CASE plateau[8][8], CASE maCase)
     }
 }
 
-
 void drawCARE(SDL_Renderer *renderer, int x, int y, int LONG, SDL_Color color)
 {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
@@ -342,49 +338,77 @@ void initRound(CASE plateau[8][8])
 
 int checkPlayable(CASE plateau[8][8], int round,int * cptSkipTurn)
 {
+    int cptPlayable = 0;
+    int cptVide = 0;
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
         {
             if (plateau[i][j].pion==POTENTIEL)
             {
-                cptSkipTurn = 0;
-                return(round);
+                cptPlayable ++;
+
             }
-            else 
+            if (plateau[i][j].pion==VIDE)
             {
-                cptSkipTurn++;
-                return(round++);
+                cptVide ++;
+
             }
         }
+    }
+    if (cptPlayable == 0  && cptVide == 0)
+    {
+        cptSkipTurn=cptSkipTurn+1;
+        printf("DEBUG :  tour passe, cptSkipTurn:%d\n",cptSkipTurn);
+        return(round++);
+    }
+    else
+    {
+        cptSkipTurn=0;
+        return(round);
     }
 }
 
 int checkWinGame(CASE plateau[8][8], int cptSkipTurn)
 {
     int cptVide = 0;
+    int cptPot= 0;
     int cptNoir= 0;
     int cptBlanc= 0;
     if (cptSkipTurn == 2)   //check si personne ne peux jouer (2 tours skip)
+    {
+            printf("DEBUG : on ne peux plus jouer\n");
             return(cptCase (plateau));
+    }
     for (int i = 0; i < 8; i++)     
     {
         for (int j = 0; j < 8; j++)
         {
             if(plateau[i][j].pion == VIDE)  //check si le pleteau est plein
                 cptVide++;
+            if(plateau[i][j].pion == POTENTIEL)  //check si le pleteau est plein
+                cptPot++;
             if (plateau[i][j].pion == NOIR) 
                 cptNoir++;
             if (plateau[i][j].pion == BLANC)
                 cptBlanc++;
         }
     }
-    if (cptVide == 0)
+    if (cptVide == 0 && cptPot ==0)
+    {
+        printf("DEBUG : plus de cases\n");
         return(cptCase (plateau));
-    if (cptBlanc == 0)      //check si les blanc ont été éliminé
+    }
+    else if (cptBlanc == 0)      //check si les blanc ont été éliminé
+    {
+       printf("DEBUG : plus de blanc\n");
         return(2);      //return 2 -> victoire Noire
-    if (cptNoir == 0)       //check si les noirs ont été éliminé
+    }
+    else if (cptNoir == 0)       //check si les noirs ont été éliminé
+    {
+        printf("DEBUG : plus de noirs\n");
         return(1);      // return 1 -> victoire blanche
+    }
     else
         return(0);
 }
@@ -446,7 +470,7 @@ void gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fo
     char counterTextB[10];
     char roundText[10];
 
-    int cpt = 0;
+    int* cpt = 0;
     int win =0;
 
     // variable des différentes couleurs
@@ -489,11 +513,6 @@ void gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fo
                     printf("DEBUG : appui sur touche %d détecté\n", event.key.keysym.sym);
                     }
                     break;
-                    if (event.key.keysym.sym == SDLK_ESCAPE)
-                    {
-                        printf("DEBUG : appui sur touche %d détecté\n", event.key.keysym.sym);
-                    }
-                    break;
                 case SDL_MOUSEBUTTONDOWN:
                     if (event.button.button == SDL_BUTTON_LEFT)
                     {
@@ -506,7 +525,7 @@ void gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fo
                         {
                             if (plate[clicX/CELL_SIZE][clicY/CELL_SIZE].pion==POTENTIEL)
                             {
-                                printf("DEBUG : round (%d)\n", round);
+                                
                                 if (round%2 == 1)
                                         plate[clicX/CELL_SIZE][clicY/CELL_SIZE].pion=NOIR;
                                 if (round%2 == 0)
@@ -514,6 +533,7 @@ void gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fo
                                 clicTabX=clicX;
                                 clicTabY=clicY;
                                 round ++;
+                                printf("DEBUG : round (%d)\n", round);
                             }
                         }
                     }
@@ -522,9 +542,14 @@ void gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fo
                     break;
             }
         }
+
         initRound(plate);
         possibility(plate,playerColor(round),advColor(playerColor(round)));
         round=checkPlayable( plate, round, cpt);
+        check(plate, plate[clicTabX/CELL_SIZE][clicTabY/CELL_SIZE]);
+
+        //mettre la fonction de save
+
         for (int i = 0; i < 8; i++)             //On parcours le tableau plate pour afficher les pions
         {
             for (int j = 0; j < 8; j++)
@@ -550,10 +575,11 @@ void gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fo
         afficherTexte(renderer,counterTextB,700,40,font,black_color);
         afficherTexte(renderer,counterTextW,800,40,font,white_color);
         afficherTexte(renderer,roundText,750,100,font,black_color);
-       
-
+       //loadImg(renderer, 800, 500);
+        
+        
         SDL_RenderPresent(renderer);    // On met a jours le render
-        check(plate, plate[clicTabX/CELL_SIZE][clicTabY/CELL_SIZE]);
+        
         win = checkWinGame(plate, cpt);
         if (win == 1)
             printf("les blancs ont gagné\n");
@@ -598,4 +624,34 @@ void afficherTexte(SDL_Renderer* renderer, const char* texte, int x, int y, TTF_
 
     // Libérer la texture du texte
     SDL_DestroyTexture(textTexture);
+}
+
+void loadImg(SDL_Renderer* renderer, int x, int y)
+{
+    SDL_Texture* texture = NULL;
+    SDL_Surface* loadedSurface = IMG_Load(PATH_UNDO);
+    if (loadedSurface == NULL)
+    {
+        printf("Erreur lors du chargement de l'image %s ! SDL_image Error: %s\n", PATH_UNDO, IMG_GetError());
+    }
+    else
+    {
+        texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+        if (texture == NULL)
+        {
+            printf("Erreur lors de la création de la texture depuis l'image %s ! SDL Error: %s\n", PATH_UNDO, SDL_GetError());
+        }
+        SDL_FreeSurface(loadedSurface);
+    }
+    SDL_Rect destination;
+    destination.x = x;
+    destination.y = y;
+    SDL_QueryTexture(texture, NULL, NULL, &destination.w, &destination.h);
+    SDL_RenderCopy(renderer, texture, NULL, &destination);
+    return;
+}
+
+void drawContour (SDL_Renderer *renderer, int x, int y, int LONG,int width, SDL_Color color)
+{
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 }

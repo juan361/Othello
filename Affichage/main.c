@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     if (SDL_Init(SDL_INIT_VIDEO) != 0)      //On initialise SDL, on quitte si erreur(s)
     {
         fprintf(stderr, "Erreur SDL_Init : %s", SDL_GetError());
-        return ;
+        return 1;
     }
 
     window = SDL_CreateWindow("Grille de 64 cases", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 8*CELL_SIZE+300, 8*CELL_SIZE, SDL_WINDOW_SHOWN);//On crée la fenêtre
@@ -64,4 +64,5 @@ Quit:
     SDL_DestroyWindow(window);
     // Quitter SDL
     SDL_Quit();
+    return 0;
 }

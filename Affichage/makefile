@@ -1,5 +1,5 @@
 main: test_affichage.o main.o
-	gcc -o ../obj/main main.o test_affichage.o -lSDL2 -lSDL2_ttf -lm
+	gcc -o ../obj/main main.o test_affichage.o -lSDL2 -lSDL2_ttf -lSDL2_image -lm
 	rm -rf *.o
 	../obj/main
 	
