@@ -453,7 +453,8 @@ int cptCaseColor (CASE plateau[8][8],int Color)
         return(caseNoir);
 }
 
-void gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Font* font)
+int
+ gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Font* font)
 {
     int quit = 0;
 
@@ -505,6 +506,7 @@ void gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fo
                 case SDL_QUIT:      //Si on clique sur la croix, on quitte
                     quit = 1;
                     printf ("DEBUG : appui sur SDL_QUIT\n");
+                    return 1;
                     break;
                 case SDL_KEYDOWN:   //Si on appuie sur une touche, on teste laquelle
                     if (event.key.keysym.sym == SDLK_q)
@@ -626,10 +628,10 @@ void afficherTexte(SDL_Renderer* renderer, const char* texte, int x, int y, TTF_
     SDL_DestroyTexture(textTexture);
 }
 
-void loadImg(SDL_Renderer* renderer, int x, int y)
+void loadImg(SDL_Renderer* renderer, int x, int y, char* path)
 {
     SDL_Texture* texture = NULL;
-    SDL_Surface* loadedSurface = IMG_Load(PATH_UNDO);
+    SDL_Surface* loadedSurface = IMG_Load(path);
     if (loadedSurface == NULL)
     {
         printf("Erreur lors du chargement de l'image %s ! SDL_image Error: %s\n", PATH_UNDO, IMG_GetError());
@@ -655,3 +657,36 @@ void drawContour (SDL_Renderer *renderer, int x, int y, int LONG,int width, SDL_
 {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 }
+
+
+void chargerEtAfficherImage(SDL_Renderer* renderer, const char* imagePath, int x, int y) {
+    // Charger l'image à partir du fichier
+    SDL_Surface* image = IMG_Load(imagePath);
+    if (!image) {
+        printf("Erreur de chargement de l'image : %s\n", IMG_GetError());
+        return;
+    }
+
+    // Convertir l'image en texture
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, image);
+    if (!texture) {
+        printf("Erreur de création de la texture : %s\n", SDL_GetError());
+        SDL_FreeSurface(image);
+        return;
+    }
+
+    // Obtenir les dimensions de l'image
+    int largeurImage = image->w;
+    int hauteurImage = image->h;
+
+    // Dessiner la texture sur le renderer
+    SDL_Rect destRect = { x, y, largeurImage, hauteurImage };
+    SDL_RenderCopy(renderer, texture, NULL, &destRect);
+
+    // Libérer la mémoire allouée
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(image);
+}
+
+
+

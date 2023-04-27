@@ -47,7 +47,7 @@ int checkWinGame(CASE plateau[8][8], int cptSkipTurn);
 int cptCase (CASE plateau[8][8]);
 
 void afficherTexte(SDL_Renderer* renderer, const char* texte, int x, int y, TTF_Font* font, SDL_Color color);
-void loadImg(SDL_Renderer* renderer, int x, int y);
+void loadImg(SDL_Renderer* renderer, int x, int y, char* path);
 
-void gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Font* font);
+int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Font* font);
 #endif

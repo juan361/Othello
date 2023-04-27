@@ -9,6 +9,7 @@
 #include <SDL2/SDL_ttf.h>
 
 
+
 #define CELL_SIZE 80
 #define PAWN_RADIUS 35
 #define POTENTIAL_PAWN_RADIUS 10
