@@ -31,17 +31,46 @@ typedef struct plate
 }CASE;
 
 void drawPAWN(SDL_Renderer *renderer, int x, int y, int radius, SDL_Color color);
+/**
+ * @brief La fonction drawPAWN sert a dessiner un cercle sur un render donné
+ * @param x : centre du cercle en x
+ * @param y : centre du cercle en y
+ */
 void drawCARE(SDL_Renderer *renderer, int x, int y, int LONG, SDL_Color color);
+/**
+ * @brief La fonction drawCARRE sert a dessiner un carré sur un render donné
+ * @param x : position x du coin haut gauche du carré
+ * @param y : position y du coin haut gauche du carré
+ */
+
 
 void initCell(CASE plate [8][8]);
-int roundr(int r);
+/**
+ * @brief Initialise le plateau pour un début de partie
+ */
+
+int roundr(int r); // ?
+
 void possibility(CASE plateau[8][8], CELL couleurJoueur, CELL couleurAdv);
+/**
+ * @brief Détermine les cases qui sont jouables
+ */
 void check(CASE plateau[8][8], CASE maCase);
+/**
+ * @brief Retourne les cases entre maCase et les piosn de la meme couleurs
+ * @param maCase : case séléctioner
+ */
 
 int playerColor (int round);
 int advColor (int couleurJoueur);
-void initRound(CASE plateau[8][8]);
+
 int checkPlayable(CASE plateau[8][8], int round,int * cptSkipTurn);
+/**
+ * @brief compte le nombre de case jouables et incrémente le round si il n'y en a pas
+ * @param maCase : case séléctioner
+ */
+
+int cptCaseColor (CASE plateau[8][8],int Color);
 
 int checkWinGame(CASE plateau[8][8], int cptSkipTurn);
 int cptCase (CASE plateau[8][8]);
@@ -50,4 +79,9 @@ void afficherTexte(SDL_Renderer* renderer, const char* texte, int x, int y, TTF_
 void loadImg(SDL_Renderer* renderer, int x, int y, char* path);
 
 int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Font* font);
+
+void afficherTexte(SDL_Renderer* renderer, const char* texte, int x, int y, TTF_Font* font, SDL_Color color) ;
+void chargerEtAfficherImage(SDL_Renderer* renderer, const char* imagePath, int x, int y) ;
+
+
 #endif

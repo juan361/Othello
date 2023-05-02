@@ -30,7 +30,6 @@ void initCell(CASE plate [8][8])
     plate[4][3].pion = NOIR;
 }
 
-
 int playerColor (int round)
 {
     int couleurJoueur;
@@ -324,18 +323,6 @@ void drawCARE(SDL_Renderer *renderer, int x, int y, int LONG, SDL_Color color)
 
 }
 
-void initRound(CASE plateau[8][8])
-{
-    for (int i = 0; i < 8; i++)             //On parcours le tableau plate pour afficher les pions
-        {
-            for (int j = 0; j < 8; j++)
-            {
-                if (plateau[i][j].pion == POTENTIEL)
-                    plateau[i][j].pion = VIDE;
-            }
-        }
-}
-
 int checkPlayable(CASE plateau[8][8], int round,int * cptSkipTurn)
 {
     int cptPlayable = 0;
@@ -349,14 +336,9 @@ int checkPlayable(CASE plateau[8][8], int round,int * cptSkipTurn)
                 cptPlayable ++;
 
             }
-            if (plateau[i][j].pion==VIDE)
-            {
-                cptVide ++;
-
-            }
         }
     }
-    if (cptPlayable == 0  && cptVide == 0)
+    if (cptPlayable == 0 )
     {
         cptSkipTurn=cptSkipTurn+1;
         printf("DEBUG :  tour passe, cptSkipTurn:%d\n",cptSkipTurn);
@@ -453,8 +435,7 @@ int cptCaseColor (CASE plateau[8][8],int Color)
         return(caseNoir);
 }
 
-int
- gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Font* font)
+int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Font* font)
 {
     int quit = 0;
 
@@ -545,7 +526,6 @@ int
             }
         }
 
-        initRound(plate);
         possibility(plate,playerColor(round),advColor(playerColor(round)));
         round=checkPlayable( plate, round, cpt);
         check(plate, plate[clicTabX/CELL_SIZE][clicTabY/CELL_SIZE]);
@@ -628,37 +608,6 @@ void afficherTexte(SDL_Renderer* renderer, const char* texte, int x, int y, TTF_
     SDL_DestroyTexture(textTexture);
 }
 
-void loadImg(SDL_Renderer* renderer, int x, int y, char* path)
-{
-    SDL_Texture* texture = NULL;
-    SDL_Surface* loadedSurface = IMG_Load(path);
-    if (loadedSurface == NULL)
-    {
-        printf("Erreur lors du chargement de l'image %s ! SDL_image Error: %s\n", PATH_UNDO, IMG_GetError());
-    }
-    else
-    {
-        texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-        if (texture == NULL)
-        {
-            printf("Erreur lors de la création de la texture depuis l'image %s ! SDL Error: %s\n", PATH_UNDO, SDL_GetError());
-        }
-        SDL_FreeSurface(loadedSurface);
-    }
-    SDL_Rect destination;
-    destination.x = x;
-    destination.y = y;
-    SDL_QueryTexture(texture, NULL, NULL, &destination.w, &destination.h);
-    SDL_RenderCopy(renderer, texture, NULL, &destination);
-    return;
-}
-
-void drawContour (SDL_Renderer *renderer, int x, int y, int LONG,int width, SDL_Color color)
-{
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-}
-
-
 void chargerEtAfficherImage(SDL_Renderer* renderer, const char* imagePath, int x, int y) {
     // Charger l'image à partir du fichier
     SDL_Surface* image = IMG_Load(imagePath);
@@ -687,6 +636,4 @@ void chargerEtAfficherImage(SDL_Renderer* renderer, const char* imagePath, int x
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(image);
 }
-
-
 
