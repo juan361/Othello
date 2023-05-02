@@ -5,7 +5,7 @@
 
 
 
-void niveauUn(t_matrice plate) {
+void niveauUn(CASE plate [8][8]) {
 	// Initialise le générateur pseudo-aléatoire
 	int min=1;
 	int max=8;
@@ -18,7 +18,7 @@ void niveauUn(t_matrice plate) {
 		a = min + rand() % (max + 1 - min);
 		b = min + rand() % (max + 1 - min);
 	//}
-    retern plate[a][b];
+    return plate[a][b];
 }
 
 void niveauDeux(CASE plate [8][8]) {
@@ -74,7 +74,8 @@ void niveauDeux(CASE plate [8][8]) {
     plate[2][2].pion = 10;
     plate[2][1].pion = 10;
 
-    if (plate[0][0].pion == /*occuper*/){
+    if (plate[0][0].pion == /*occuper*/)
+    {
          if (plate[0][0].pion == /*couleur de l'ia*/){
             plate[1][0].pion = 15;
             plate[1][1].pion = 15;
@@ -150,12 +151,12 @@ void niveauDeux(CASE plate [8][8]) {
     int coupJouer = -1;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++){
-            if (plate[i][j] == POTENTIEL) && (plate[i][j]>coupJouer){
-                coupJouer = plate[i][j];
+            if ((plate[i][j].pion == POTENTIEL) && (plate[i][j]>coupJouer)){
+                coupJouer = plate[i][j].pion;
             }
         }
     }
-    retern coupJouer;
+    return coupJouer;
 }
 
 

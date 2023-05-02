@@ -17,7 +17,7 @@ int** retour_plateau(CASE plateau[8][8])
     {
         for (int j = 0; j < 8; j++)
         {
-          tab[i][j]= plateau.pion[i][j]; 
+          tab[i][j] = plateau[i][j].pion; 
         }
         
     }

@@ -12,8 +12,8 @@
 #define PAWN_RADIUS 35
 #define POTENTIAL_PAWN_RADIUS 10
 
-#define FONT_PATH "/home/isen/Algo/Proj_2/Othello/resources/font/ARIAL.TTF"
-#define PATH_UNDO "/home/isen/Algo/Proj_2/Othello/resources/img/undo.png"
+#define FONT_PATH "../../resources/font/ARIAL.TTF"
+#define PATH_UNDO "../../resources/img/undo.png"
 
 typedef enum {
     NOIR = 0,

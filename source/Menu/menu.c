@@ -5,7 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 
-#include "../test_affichage.c"
+#include "../Affichage/test_affichage.c"
 
 #define SCREEN_WIDTH 940
 #define SCREEN_HEIGHT 640
