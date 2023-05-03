@@ -5,7 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 
-#include "../Affichage/test_affichage.c"
+#include "Affichage/affichage.h"
 
 #define SCREEN_WIDTH 940
 #define SCREEN_HEIGHT 640
@@ -75,7 +75,7 @@ int main(int argc, char* args[])
 
     //affichage menu
 
-    chargerEtAfficherImage(renderer,"../../resources/img/menu.png",0,0);
+    chargerEtAfficherImage(renderer,"../resources/img/menu.png",0,0);
     //afficherTexte(renderer, newGameOption.label, newGameOption.rect.x, newGameOption.rect.y,  font, colorWhite);
     //afficherTexte(renderer, loadGameOption.label, loadGameOption.rect.x, loadGameOption.rect.y,  font, colorWhite);
     //afficherTexte(renderer, rulesOption.label, rulesOption.rect.x, rulesOption.rect.y,  font, colorWhite);
@@ -121,13 +121,13 @@ int main(int argc, char* args[])
             {
                 //printf("Mouvement de souris (%d %d) \n", event.motion.x, event.motion.y);
                 if  (event.motion.x >= 285 && event.motion.x <= 655 && event.motion.y >= 320 && event.motion.y <= 400)
-                    chargerEtAfficherImage(renderer,"../../resources/img/menu_1.png",0,0);
+                    chargerEtAfficherImage(renderer,"../resources/img/menu_1.png",0,0);
                 else if (event.motion.x >= 285 && event.motion.x <= 655 && event.motion.y >= 430 && event.motion.y <= 507)
-                    chargerEtAfficherImage(renderer,"../../resources/img/menu_2.png",0,0);
+                    chargerEtAfficherImage(renderer,"../resources/img/menu_2.png",0,0);
                 else if (event.motion.x >= 285 && event.motion.x <= 655 && event.motion.y >= 535 && event.motion.y <= 613)
-                    chargerEtAfficherImage(renderer,"../../resources/img/menu_3.png",0,0);
+                    chargerEtAfficherImage(renderer,"../resources/img/menu_3.png",0,0);
                 else
-                    chargerEtAfficherImage(renderer,"../../resources/img/menu.png",0,0);
+                    chargerEtAfficherImage(renderer,"../resources/img/menu.png",0,0);
                 SDL_UpdateWindowSurface(window);
             }
         }

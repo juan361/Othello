@@ -1,6 +1,4 @@
-#include "../Affichage/affichage.h"
-
-
+#include "../Jeu/jeu.h"
 
 struct coup
 {
