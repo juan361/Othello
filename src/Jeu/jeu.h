@@ -35,7 +35,7 @@ void check(CASE plateau[8][8], CASE maCase);
  * @param maCase : case séléctioner
  */
 
-int checkPlayable(CASE plateau[8][8], int round,int * cptSkipTurn);
+int checkPlayable(CASE plateau[8][8]);
 /**
  * @brief compte le nombre de case jouables et incrémente le round si il n'y en a pas
  * @param maCase : case séléctioner

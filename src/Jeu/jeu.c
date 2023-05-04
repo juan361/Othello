@@ -20,6 +20,28 @@ void initCell(CASE plate [8][8])
     plate[4][3].pion = NOIR;
 }
 
+
+void initCell2(CASE plate [8][8])
+{
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            plate[i][j].pion = VIDE;
+            plate[i][j].posX= i;
+            plate[i][j].posY= j;
+        }
+    }
+    plate[3][5].pion = NOIR;        //On place les 4 pions de départ
+    plate[4][5].pion = NOIR ;
+    plate[3][6].pion = NOIR;
+    plate[4][6].pion = NOIR;
+    //plate[4][7].pion = BLANC;
+    //plate[3][7].pion = BLANC;
+    plate[1][1].pion = BLANC;
+}
+
+
 int playerColor (int round)
 {
     int couleurJoueur;
@@ -29,6 +51,8 @@ int playerColor (int round)
         couleurJoueur = NOIR;
     return(couleurJoueur);   
 }
+
+
 
 /*donne la couleur adverse*/
 int advColor (int couleurJoueur)
@@ -305,9 +329,8 @@ void check(CASE plateau[8][8], CASE maCase)
     }
 }
 
-int checkPlayable(CASE plateau[8][8], int round,int * cptSkipTurn)
+int checkPlayable(CASE plateau[8][8])
 {
-    int cptPlayable = 0;
     int cptVide = 0;
     for (int i = 0; i < 8; i++)
     {
@@ -315,22 +338,17 @@ int checkPlayable(CASE plateau[8][8], int round,int * cptSkipTurn)
         {
             if (plateau[i][j].pion==POTENTIEL)
             {
-                cptPlayable ++;
-
+            //printf("y a un pot\n");
+                return(1);
             }
+            if (plateau[i][j].pion==VIDE)
+                cptVide ++;
         }
     }
-    if (cptPlayable == 0 )
-    {
-        cptSkipTurn=cptSkipTurn+1;
-        printf("DEBUG :  tour passe, cptSkipTurn:%d\n",cptSkipTurn);
-        return(round++);
-    }
-    else
-    {
-        cptSkipTurn=0;
-        return(round);
-    }
+    if (cptVide == 0)
+        return 1;
+    //printf("y pas de pot\n");
+    return(0);
 }
 
 int checkWinGame(CASE plateau[8][8], int cptSkipTurn)
@@ -339,7 +357,7 @@ int checkWinGame(CASE plateau[8][8], int cptSkipTurn)
     int cptPot= 0;
     int cptNoir= 0;
     int cptBlanc= 0;
-    if (cptSkipTurn == 2)   //check si personne ne peux jouer (2 tours skip)
+    if (cptSkipTurn > 1)   //check si personne ne peux jouer (2 tours skip)
     {
             printf("DEBUG : on ne peux plus jouer\n");
             return(cptCase (plateau));

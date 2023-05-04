@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
+#include "ia.h"
 #include "../Jeu/jeu.h"
 
-
+//gcc -o ia ia.c ../Jeu/jeu.c
 
 CASE niveauUn(CASE plate [8][8]) {
 	// Initialise le générateur pseudo-aléatoire
@@ -165,7 +167,7 @@ int main (){
 	CASE Tab[8][8];
 	CASE nv1 = niveauUn(Tab);
 	initCell(Tab);
-	printf ("%d,%d", nv1.posX, nv1.posY);
+	printf ("%d,%d\n", nv1.posX, nv1.posY);
 	
 }
 

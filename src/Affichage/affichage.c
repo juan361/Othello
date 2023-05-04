@@ -35,13 +35,12 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
     int clicTabX = NULL;
     int clicTabY = NULL;
 
-    int* counterBlack=0 ;
-    int* counterWhite =0;
     char counterTextW[10];
     char counterTextB[10];
     char roundText[10];
 
-    int* cpt = 0;
+    int cpt = 0;
+    int cpt2 =0;
     int win =0;
 
     // variable des différentes couleurs
@@ -53,6 +52,8 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
     CASE plate[8][8];     //On crée le plateau de jeu
     
     initCell(plate);
+    //initCell2(plate);
+    possibility(plate,playerColor(round),advColor(playerColor(round)));
 
     SDL_SetRenderDrawColor(renderer, background_color.r, background_color.g, background_color.b, background_color.a);
     SDL_RenderClear(renderer);      //On met le fond 
@@ -66,23 +67,23 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
     SDL_Rect rect = {8*CELL_SIZE, 8*CELL_SIZE, 100, 100};
     SDL_SetRenderDrawColor(renderer, black_color.r,black_color.g,black_color.b,black_color.a);
 
-
     while (quit == 0)
     {
+        Begin:
         while (SDL_PollEvent(&event))
         {
             switch (event.type)
             {
                 case SDL_QUIT:      //Si on clique sur la croix, on quitte
                     quit = 1;
-                    printf ("DEBUG : appui sur SDL_QUIT\n");
+                    //printf ("DEBUG : appui sur SDL_QUIT\n");
                     return 1;
                     break;
                 case SDL_KEYDOWN:   //Si on appuie sur une touche, on teste laquelle
                     if (event.key.keysym.sym == SDLK_q)
                     {
                         quit = 1;
-                    printf("DEBUG : appui sur touche %d détecté\n", event.key.keysym.sym);
+                    //printf("DEBUG : appui sur touche %d détecté\n", event.key.keysym.sym);
                     }
                     break;
                 case SDL_MOUSEBUTTONDOWN:
@@ -92,21 +93,29 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
                         clicY = event.button.y;
 
                         //printf("DEBUG : clic gauche détecté à la position (%d, %d)\n", clicX, clicY);
-                        //printf("DEBUG : clic gauche détecté à la position (%d, %d)\n", clicX/CELL_SIZE, clicY/CELL_SIZE);
                         if (clicX < 8*CELL_SIZE)
                         {
+                            
                             if (plate[clicX/CELL_SIZE][clicY/CELL_SIZE].pion==POTENTIEL)
                             {
-                                
+                                cpt2=0;
                                 if (round%2 == 1)
-                                        plate[clicX/CELL_SIZE][clicY/CELL_SIZE].pion=NOIR;
+                                    //possibility(plate,BLANC,NOIR);
+                                    plate[clicX/CELL_SIZE][clicY/CELL_SIZE].pion=NOIR;
                                 if (round%2 == 0)
-                                        plate[clicX/CELL_SIZE][clicY/CELL_SIZE].pion=BLANC;
+                                    //possibility(plate,NOIR,BLANC);
+                                    plate[clicX/CELL_SIZE][clicY/CELL_SIZE].pion=BLANC;
                                 clicTabX=clicX;
                                 clicTabY=clicY;
                                 round ++;
                                 printf("DEBUG : round (%d)\n", round);
+                                
                             }
+                        }
+                        else if (clicX > 850 && clicX < 900 && clicY > 550 && clicY < 600)
+                        {
+                            printf("Home\n");
+                            return 2;
                         }
                     }
                     break;
@@ -114,9 +123,26 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
                     break;
             }
         }
-
+        //printf("DEBUG : cpt2 (%d)\n", cpt2);       
+        
         possibility(plate,playerColor(round),advColor(playerColor(round)));
-        round=checkPlayable( plate, round, cpt);
+        
+        if (checkPlayable(plate)==0 /*&& cpt2==0*/)
+        {
+            cpt++;
+            cpt2++;
+            round++;
+            printf("DEBUG : cpt* (%d)\n", cpt);
+            printf("tour passé\n" );
+            goto Begin;
+        }
+        else if (checkPlayable(plate)==1/* && cpt2==0*/)
+        {
+            cpt=0;
+            cpt2++;
+            //printf("DEBUG : cpt (%d)\n", cpt);
+
+        }
         check(plate, plate[clicTabX/CELL_SIZE][clicTabY/CELL_SIZE]);
 
         //mettre la fonction de save
@@ -135,30 +161,45 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
                     drawCARE(renderer, i*CELL_SIZE+1, j*CELL_SIZE+1, CELL_SIZE-1, background_color);
             }
         }
-        counterBlack = cptCaseColor(plate,NOIR);
-        counterWhite = cptCaseColor(plate,BLANC);
-        //printf("%d\n",counterBlack);
 
-        sprintf(counterTextB, "%d", counterBlack);
-        sprintf(counterTextW, "%d", counterWhite);
+        //convertie un nb en chaine de charactère
+        sprintf(counterTextB, "%d", cptCaseColor(plate,NOIR));
+        sprintf(counterTextW, "%d", cptCaseColor(plate,BLANC));
         sprintf(roundText, "round :%d", round);
-        drawCARE(renderer,700,40,200,background_color);
-        afficherTexte(renderer,counterTextB,700,40,font,black_color);
-        afficherTexte(renderer,counterTextW,800,40,font,white_color);
-        afficherTexte(renderer,roundText,750,100,font,black_color);
-       //loadImg(renderer, 800, 500);
-        
-        
-        SDL_RenderPresent(renderer);    // On met a jours le render
+
+        //retinialise le bandeau a droite
+        SDL_SetRenderDrawColor(renderer, background_color.r,background_color.g,background_color.b,background_color.a);
+        SDL_Rect rect = {641, 0, 940, 940};
+        SDL_RenderFillRect(renderer, &rect);
+        //affiche le nb de pion de chaque joueur
+        afficherTexte(renderer,counterTextB,690,40,font,black_color);
+        afficherTexte(renderer,counterTextW,770,40,font,white_color);
+        //affiche la couleur du joueur
+        SDL_Color color;
+        if (playerColor(round)==BLANC)
+            color=black_color;
+        else if (playerColor(round)==NOIR)
+            color=white_color;
+        drawPAWN(renderer,884,50,20,color);
+        //affiche le round
+        afficherTexte(renderer,roundText,740,450,font,black_color);
+
+        chargerEtAfficherImage(renderer, "../resources/img/undo.png",680, 555);
+        chargerEtAfficherImage(renderer, "../resources/img/home.png",850, 550);
+  
         
         win = checkWinGame(plate, cpt);
         if (win == 1)
             printf("les blancs ont gagné\n");
         else if (win == 2)
             printf("les noirs ont gagné\n");
-        SDL_RenderPresent(renderer);
+        SDL_RenderPresent(renderer);    // On met a jours le rendu
     }
 }
+
+
+
+
 
 void afficherTexte(SDL_Renderer* renderer, const char* texte, int x, int y, TTF_Font* font, SDL_Color color) {
     // Rendre le texte en surface

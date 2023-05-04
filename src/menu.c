@@ -74,7 +74,7 @@ int main(int argc, char* args[])
     MenuOption rulesOption = { { 370, 120, 200, 50 }, "Regles" }; 
 
     //affichage menu
-
+    Home:
     chargerEtAfficherImage(renderer,"../resources/img/menu.png",0,0);
     //afficherTexte(renderer, newGameOption.label, newGameOption.rect.x, newGameOption.rect.y,  font, colorWhite);
     //afficherTexte(renderer, loadGameOption.label, loadGameOption.rect.x, loadGameOption.rect.y,  font, colorWhite);
@@ -106,6 +106,8 @@ int main(int argc, char* args[])
                     printf("L'option Nouvelle partie a été sélectionnée !\n");
                     if(gameStart(window,renderer,event,font)==1)
                         goto Quit;
+                    if(gameStart(window,renderer,event,font)==2)
+                        goto Home;
                 }
                 else if (x >= 285 && x <= 655 && y >= 430 && y <= 507)
                 {
