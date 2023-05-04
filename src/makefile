@@ -1,5 +1,5 @@
 main: affichage.o menu.o jeu.o
-	gcc -o Othello menu.o affichage.o jeu.o -lSDL2 -lSDL2_ttf -lSDL2_image -lm
+	gcc -fcommon -o Othello menu.o affichage.o jeu.o -lSDL2 -lSDL2_ttf -lSDL2_image -lm
 	rm -rf *.o
 	./Othello
 
