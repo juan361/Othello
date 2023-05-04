@@ -1,6 +1,6 @@
 #include "affichage.h"
-#include "../Jeu/jeu.h"
-#include "../Save/save.h"
+
+
 
 
 void drawPAWN(SDL_Renderer *renderer, int x, int y, int radius, SDL_Color color)    //Fonction qui dessine un pion
@@ -190,9 +190,21 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
         
         win = checkWinGame(plate, cpt);
         if (win == 1)
+        {
             printf("les blancs ont gagné\n");
+            chargerEtAfficherImage(renderer,"../resources/img/VictoireBlanc.png", 300,300);
+            SDL_RenderPresent(renderer);
+            SDL_Delay(2000);
+            return 2;
+        }
         else if (win == 2)
+        {
             printf("les noirs ont gagné\n");
+            chargerEtAfficherImage(renderer,"../resources/img/VictoireNoirs.png", 300,300);
+            SDL_RenderPresent(renderer);
+            SDL_Delay(2000);
+            return 2;
+        }
         SDL_RenderPresent(renderer);    // On met a jours le rendu
     }
 }

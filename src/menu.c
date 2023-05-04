@@ -104,9 +104,10 @@ int main(int argc, char* args[])
                 if (x >= 285 && x <= 655 && y >= 320 && y <= 400)
                 {
                     printf("L'option Nouvelle partie a été sélectionnée !\n");
-                    if(gameStart(window,renderer,event,font)==1)
+                    int game = gameStart(window,renderer,event,font);
+                    if( game ==1)
                         goto Quit;
-                    if(gameStart(window,renderer,event,font)==2)
+                    if(game==2)
                         goto Home;
                 }
                 else if (x >= 285 && x <= 655 && y >= 430 && y <= 507)
