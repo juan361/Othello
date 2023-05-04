@@ -1,6 +1,6 @@
 #include "affichage.h"
 #include "../Jeu/jeu.h"
-
+#include "../Save/save.h"
 
 
 void drawPAWN(SDL_Renderer *renderer, int x, int y, int radius, SDL_Color color)    //Fonction qui dessine un pion

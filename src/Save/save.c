@@ -1,4 +1,7 @@
-#include "../Jeu/jeu.h"
+
+#include "save.h"
+
+//gcc -o save save.c ../Jeu/jeu.c
 
 struct coup
 {
