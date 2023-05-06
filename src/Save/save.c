@@ -1,8 +1,6 @@
 #include "save.h"
 
 
-#include "../Jeu/jeu.c"
-#include "../Jeu/jeu.h"
 //gcc -o save save.c ../Jeu/jeu.c
 
 
@@ -20,14 +18,14 @@ int retour_plateau(CASE plateau[8][8])
     }
    return tab;
 }
-void save_coup( coup *chaine, CASE plate[8][8])
+void save_coup( coup *chaine, CASE plateau[8][8])
 {
    
     //variable joueur à faire
     coup *c;
     c->tour = chaine->tour+1;
     
-    c->plateau = retour_plateau(plate[8][8]);
+    c->plateau = retour_plateau(plateau);
 
     c->prec   = chaine;
     chaine->suivant = c;
