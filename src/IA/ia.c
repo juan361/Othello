@@ -155,7 +155,7 @@ CASE niveauDeux(CASE plate [8][8]) {
     CASE coupJouer;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++){
-            if ((plate[i][j].poids == POTENTIEL) && (plate[i][j].poids > coupJouer.poids)){
+            if ((plate[i][j].pion == POTENTIEL) && (plate[i][j].poids > coupJouer.poids)){
                 coupJouer = plate[i][j];
             }
         }
@@ -165,9 +165,11 @@ CASE niveauDeux(CASE plate [8][8]) {
 
 int main (){
 	CASE Tab[8][8];
+    initCell(Tab);
 	CASE nv1 = niveauUn(Tab);
-	initCell(Tab);
+	CASE nv2 = niveauDeux(Tab);
 	printf ("%d,%d\n", nv1.posX, nv1.posY);
+    printf ("%d,%d\n", nv2.posX, nv2.posY);
 	
 }
 

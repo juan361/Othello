@@ -1,7 +1,11 @@
 #include "affichage.h"
 
 
-
+  // variable des différentes couleurs
+    SDL_Color background_color = {83,147,120,255};          //Couleur de fond
+    SDL_Color black_color = {0,0,0,255};                    //Couleur noir
+    SDL_Color white_color = {255,255,255,255};              //Couleur blanc
+    SDL_Color potential_color = {127,127,127,255};          //Couleur gris
 
 void drawPAWN(SDL_Renderer *renderer, int x, int y, int radius, SDL_Color color)    //Fonction qui dessine un pion
 {
@@ -43,11 +47,7 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
     int cpt2 =0;
     int win =0;
 
-    // variable des différentes couleurs
-    SDL_Color background_color = {83,147,120,255};          //Couleur de fond
-    SDL_Color black_color = {0,0,0,255};                    //Couleur noir
-    SDL_Color white_color = {255,255,255,255};              //Couleur blanc
-    SDL_Color potential_color = {127,127,127,255};          //Couleur gris
+  
 
     CASE plate[8][8];     //On crée le plateau de jeu
     

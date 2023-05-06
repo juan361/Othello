@@ -1,14 +1,11 @@
 #include "save.h"
 
+
+#include "../Jeu/jeu.c"
+#include "../Jeu/jeu.h"
 //gcc -o save save.c ../Jeu/jeu.c
 
-struct coup
-{
-    int tour;
-    int** plateau;
-    struct noeud* suivant;
-    struct noeud* prec;
-};
+
 int retour_plateau(CASE plateau[8][8])
 {
     int** tab[8][8];
@@ -23,14 +20,14 @@ int retour_plateau(CASE plateau[8][8])
     }
    return tab;
 }
-void save_coup(struct coup chaine, CASE plate[8][8])
+void save_coup( coup *chaine, CASE plate[8][8])
 {
    
     //variable joueur à faire
-    struct coup c;
-    c.tour = chaine->tour+1;
+    coup *c;
+    c->tour = chaine->tour+1;
     
-    c.plateau = retour_plateau(plate[8][8]);
+    c->plateau = retour_plateau(plate[8][8]);
 
     c->prec   = chaine;
     chaine->suivant = c;
@@ -38,25 +35,32 @@ void save_coup(struct coup chaine, CASE plate[8][8])
 
     
 }
-void sauvegarde_txt(struct coup c){
-    int r = roundr();
+void sauvegarde_txt(coup *c){
+    
     FILE *fichier = fopen("../sauv/sauv.txt", "w");
-    fprintf(fichier, "%d:", round);
+    fprintf(fichier, "%d:", c->tour);
     fprintf(fichier, "%d;");
         for(int i; i < 8; i++){
             for(int j; j < 8; j++){
-                fprintf(fichier, "%d", c.plateau[i][j]);
+                fprintf(fichier, "%d", c->plateau[i][j]);
             }
         }
 }
-void retour_coup(struct coup c){
+void retour_coup(coup c){
     
     // on va rejouer le coup précédent
-    struct coup a;
-    struct coup *a;
-    *a = c.prec;
+     //coup a;
+     coup *a;
+    a = c.prec;
     int tab[8][8];
-    tab = a.plateau;
+     for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            tab[i][j] = a->plateau[i][j];
+        }
+    }
+
 
     
     //je vais supprimer la dernière ligne.
@@ -64,21 +68,21 @@ void retour_coup(struct coup c){
     long int pos = -1;
     int ch = 0;
 
-    fseek(FILE, 0, SEEK_END);
-    pos = ftell(file);
+    fseek(fichier, 0, SEEK_END);
+    pos = ftell(fichier);
 
     while (pos) {
-        fseek(file, --pos, SEEK_SET);
-        ch = fgetc(file);
+        fseek(fichier, --pos, SEEK_SET);
+        ch = fgetc(fichier);
         if (ch == '\n') {
             break;
         }
     }
 
-    fseek(file, pos, SEEK_SET);
-    ftruncate(fileno(file), pos);
+    fseek(fichier, pos, SEEK_SET);
+    ftruncate(fileno(fichier), pos);
 
-    fclose(file);
+    fclose(fichier);
     }
 
 void charger_partie(int tab[8][8], CASE plate[8][8])
@@ -95,7 +99,7 @@ void charger_partie(int tab[8][8], CASE plate[8][8])
         }
     }
 }
-int main(struct coup c)
+int main(coup c)
 {
 
 }

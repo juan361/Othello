@@ -1,9 +1,6 @@
 //gcc menu2.c -o menu -lSDL2 -lSDL2_ttf -lSDL2_image
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
-#include <stdio.h>
+
 
 #include "Affichage/affichage.h"
 
@@ -11,11 +8,21 @@
 #define SCREEN_HEIGHT 640
 #define CELL_SIZE 80
 
-// Structure pour représenter une option de menu
-typedef struct {
-    SDL_Rect rect;  // Rectangle pour afficher l'option de menu
-    const char* label;  // Texte de l'option de menu
-} MenuOption;
+void clignMenu(SDL_Renderer* renderer, SDL_Event event)
+{
+    if  (event.motion.x >= 285 && event.motion.x <= 655 && event.motion.y >= 320 && event.motion.y <= 400)
+        chargerEtAfficherImage(renderer,"../resources/img/menu_1.png",0,0);
+    else if (event.motion.x >= 285 && event.motion.x <= 655 && event.motion.y >= 430 && event.motion.y <= 507)
+        chargerEtAfficherImage(renderer,"../resources/img/menu_2.png",0,0);
+    else if (event.motion.x >= 285 && event.motion.x <= 655 && event.motion.y >= 535 && event.motion.y <= 613)
+        chargerEtAfficherImage(renderer,"../resources/img/menu_3.png",0,0);
+    else
+        chargerEtAfficherImage(renderer,"../resources/img/menu.png",0,0);
+    SDL_RenderPresent(renderer); 
+}
+
+
+
 
 int main(int argc, char* args[]) 
 {
@@ -29,7 +36,7 @@ int main(int argc, char* args[])
     SDL_Window* window = SDL_CreateWindow("Othello", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 8*CELL_SIZE+300, 8*CELL_SIZE, SDL_WINDOW_SHOWN);//On crée la fenêtre
     if(NULL == window)                      //Après avoir créé la fenêtre, on quitte si erreur(s)
     {
-        fprintf(stderr, "Erreur SDL_CreateWindow : %s\n", SDL_GetError());
+        printf( "Erreur SDL_CreateWindow : %s\n", SDL_GetError());
          SDL_Quit();
         return 1;
     }
@@ -37,7 +44,7 @@ int main(int argc, char* args[])
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);    //On crée le renderer
     if(NULL == renderer)                    //Après avoir crée le renderer, on quitte si erreur(s)
     {
-        fprintf(stderr, "Erreur SDL_CreateRenderer : %s\n", SDL_GetError());
+        printf( "Erreur SDL_CreateRenderer : %s\n", SDL_GetError());
         SDL_DestroyWindow(window);
         SDL_Quit();
         return 1;
@@ -63,25 +70,12 @@ int main(int argc, char* args[])
         return 1;
     }
 
-    //création des couleurs
-    SDL_Color colorWhite = { 255, 255, 255 };
-    SDL_Color colorBlack = { 0,0,0 };
-    SDL_Color background_color = {83,147,120,255};
-
-    // Création des options de menu
-    MenuOption newGameOption = { { 370, 0, 200, 50 }, "Nouvelle partie" };
-    MenuOption loadGameOption = { { 370, 60, 200, 50 }, "Charger partie" };
-    MenuOption rulesOption = { { 370, 120, 200, 50 }, "Regles" }; 
-
-    //affichage menu
+    //création menu
     Home:
     chargerEtAfficherImage(renderer,"../resources/img/menu.png",0,0);
-    //afficherTexte(renderer, newGameOption.label, newGameOption.rect.x, newGameOption.rect.y,  font, colorWhite);
-    //afficherTexte(renderer, loadGameOption.label, loadGameOption.rect.x, loadGameOption.rect.y,  font, colorWhite);
-    //afficherTexte(renderer, rulesOption.label, rulesOption.rect.x, rulesOption.rect.y,  font, colorWhite);
 
     // Mise à jour de la fenêtre
-    SDL_UpdateWindowSurface(window);
+    SDL_RenderPresent(renderer); 
 
     // Boucle principale
     SDL_Event event;
@@ -123,15 +117,7 @@ int main(int argc, char* args[])
             else if (event.type == SDL_MOUSEMOTION)
             {
                 //printf("Mouvement de souris (%d %d) \n", event.motion.x, event.motion.y);
-                if  (event.motion.x >= 285 && event.motion.x <= 655 && event.motion.y >= 320 && event.motion.y <= 400)
-                    chargerEtAfficherImage(renderer,"../resources/img/menu_1.png",0,0);
-                else if (event.motion.x >= 285 && event.motion.x <= 655 && event.motion.y >= 430 && event.motion.y <= 507)
-                    chargerEtAfficherImage(renderer,"../resources/img/menu_2.png",0,0);
-                else if (event.motion.x >= 285 && event.motion.x <= 655 && event.motion.y >= 535 && event.motion.y <= 613)
-                    chargerEtAfficherImage(renderer,"../resources/img/menu_3.png",0,0);
-                else
-                    chargerEtAfficherImage(renderer,"../resources/img/menu.png",0,0);
-                SDL_UpdateWindowSurface(window);
+               clignMenu(renderer,event); 
             }
         }
     }
