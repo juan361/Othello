@@ -1,4 +1,3 @@
-
 #include "save.h"
 
 //gcc -o save save.c ../Jeu/jeu.c
@@ -10,7 +9,7 @@ struct coup
     struct noeud* suivant;
     struct noeud* prec;
 };
-int** retour_plateau(CASE plateau[8][8])
+int retour_plateau(CASE plateau[8][8])
 {
     int** tab[8][8];
 
@@ -24,13 +23,18 @@ int** retour_plateau(CASE plateau[8][8])
     }
    return tab;
 }
-void save_coup(struct coup chaine)
+void save_coup(struct coup chaine, CASE plate[8][8])
 {
+   
     //variable joueur à faire
     struct coup c;
-    c.prec   = *chaine;
-    chaine.suivant = *c;
-    c.plateau = retour_plateau(plateau[8][8]);
+    c.tour = chaine->tour+1;
+    
+    c.plateau = retour_plateau(plate[8][8]);
+
+    c->prec   = chaine;
+    chaine->suivant = c;
+    sauvegarde_txt(c);
 
     
 }
@@ -38,10 +42,10 @@ void sauvegarde_txt(struct coup c){
     int r = roundr();
     FILE *fichier = fopen("../sauv/sauv.txt", "w");
     fprintf(fichier, "%d:", round);
-    fprintf(fichier, "%d\n", entier);
+    fprintf(fichier, "%d;");
         for(int i; i < 8; i++){
             for(int j; j < 8; j++){
-                fprintf(fichier, "%d", plateau[i][j]);
+                fprintf(fichier, "%d", c.plateau[i][j]);
             }
         }
 }
@@ -49,7 +53,8 @@ void retour_coup(struct coup c){
     
     // on va rejouer le coup précédent
     struct coup a;
-    a = c.prec;
+    struct coup *a;
+    *a = c.prec;
     int tab[8][8];
     tab = a.plateau;
 
@@ -59,7 +64,7 @@ void retour_coup(struct coup c){
     long int pos = -1;
     int ch = 0;
 
-    fseek(file, 0, SEEK_END);
+    fseek(FILE, 0, SEEK_END);
     pos = ftell(file);
 
     while (pos) {
@@ -90,7 +95,7 @@ void charger_partie(int tab[8][8], CASE plate[8][8])
         }
     }
 }
-int main(struct coup c){}
+int main(struct coup c)
 {
 
 }
