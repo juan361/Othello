@@ -25,8 +25,8 @@ typedef struct noeud
 {
     int tour;
     int** plateau;
-     coup* suivant;
-     coup* prec;
+    coup* suivant;
+    coup* prec;
 }coup;
 
 int retour_plateau(CASE plateau[8][8]);

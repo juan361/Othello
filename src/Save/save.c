@@ -18,6 +18,23 @@ int retour_plateau(CASE plateau[8][8])
     }
    return tab;
 }
+
+int isFileEmpty(char* filename) {
+    FILE* file = fopen(filename, "r");
+    if (file == NULL) {
+        return -1; // Erreur d'ouverture du fichier
+    }
+    
+    fseek(file, 0, SEEK_END); // Se positionner à la fin du fichier
+    if (ftell(file) == 0) { // Vérifier la position courante
+        fclose(file);
+        return 1; // Le fichier est vide
+    }
+    
+    fclose(file);
+    return 0; // Le fichier n'est pas vide
+}
+
 void save_coup( coup *chaine, CASE plateau[8][8])
 {
    
@@ -97,7 +114,25 @@ void charger_partie(int tab[8][8], CASE plate[8][8])
         }
     }
 }
-int main(coup c)
+int main()
 {
+    char**  cv = "../test/testv.txt";
+    char**  c  = "../test/test.txt";
 
+    if(isFileEmpty(cv)==1)
+    {
+        printf("teste vide juste");
+    }
+    else
+    {
+        printf("test vide faux");
+    }
+        if(isFileEmpty(c)==1)
+    {
+        printf("teste juste");
+    }
+    else
+    {
+        printf("test faux");
+    }
 }
