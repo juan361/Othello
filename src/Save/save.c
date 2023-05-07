@@ -35,22 +35,21 @@ int isFileEmpty(char* filename) {
     return 0; // Le fichier n'est pas vide
 }
 
-void save_coup( coup *chaine, CASE plateau[8][8])
+coup save_coup( coup *chaine, CASE plateau[8][8])
 {
-   
     //variable joueur à faire
     coup *c;
     c->tour = chaine->tour+1;
-    
     c->plateau = retour_plateau(plateau);
-
-    c->prec   = chaine;
-    chaine->suivant = c;
+    c->prec = chaine;
+    chaine = c;
     sauvegarde_txt(c);
-
-    
+    return  *chaine;
 }
+
+
 void sauvegarde_txt(coup *c){
+    // ce pg va automatiquement sauvegarder le coup dans un fichier texte
     
     FILE *fichier = fopen("../sauv/sauv.txt", "w");
     fprintf(fichier, "%d:", c->tour);
@@ -62,14 +61,17 @@ void sauvegarde_txt(coup *c){
         }
     fclose(fichier);
 }
+
+
 void retour_coup(coup c,CASE plateau[8][8]){
     
     // on va rejouer le coup précédent
-     //coup a;
-     coup *a;
+    //coup a;
+    coup *a;
+    
     a = c.prec;
     int tab[8][8];
-     for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
         {

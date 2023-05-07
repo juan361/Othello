@@ -10,18 +10,16 @@
 
 
 
-
 typedef struct coup
 {
     int tour;
     int plateau;
-   struct coup* suivant;
-   struct coup* prec;
+    struct coup* prec;
 }coup;
 
 int retour_plateau(CASE plateau[8][8]);
 
-void save_coup(coup* chaine, CASE plate[8][8]);
+coup save_coup(coup* chaine, CASE plate[8][8]);
 
 void sauvegarde_txt(coup* c);
 
