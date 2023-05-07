@@ -6,17 +6,17 @@
 
 int retour_plateau(CASE plateau[8][8])
 {
-    int** tab[8][8];
+     CASE tab[8][8];
 
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
         {
-          tab[i][j] = plateau[i][j].pion; 
+          tab[i][j].pion = plateau[i][j].pion;
         }
         
     }
-   return tab;
+   return tab[8][8].pion;
 }
 
 int isFileEmpty(char* filename) {
@@ -54,14 +54,15 @@ void sauvegarde_txt(coup *c){
     
     FILE *fichier = fopen("../sauv/sauv.txt", "w");
     fprintf(fichier, "%d:", c->tour);
-    fprintf(fichier, "%d;");
+   // fprintf(fichier, "%d:", c->plateau);
         for(int i; i < 8; i++){
             for(int j; j < 8; j++){
-                fprintf(fichier, "%d", c->plateau[i][j]);
+                fprintf(fichier, "%d", c->plateau);
             }
         }
+    fclose(fichier);
 }
-void retour_coup(coup c){
+void retour_coup(coup c,CASE plateau[8][8]){
     
     // on va rejouer le coup précédent
      //coup a;
@@ -72,14 +73,14 @@ void retour_coup(coup c){
     {
         for (int j = 0; j < 8; j++)
         {
-            tab[i][j] = a->plateau[i][j];
+            tab[i][j] = plateau[i][j].pion;
         }
     }
 
 
     
     //je vais supprimer la dernière ligne.
-    FILE *fichier = fopen("../sauv/sauv.txt", "wr");
+    FILE *fichier = fopen("../sauv/sauv.txt", "w");
     long int pos = -1;
     int ch = 0;
 
@@ -95,8 +96,8 @@ void retour_coup(coup c){
     }
 
     fseek(fichier, pos, SEEK_SET);
-    ftruncate(fileno(fichier), pos);
 
+    ftruncate(fileno(fichier), pos);
     fclose(fichier);
     }
 
@@ -116,8 +117,8 @@ void charger_partie(int tab[8][8], CASE plate[8][8])
 }
 int main()
 {
-    char**  cv = "../test/testv.txt";
-    char**  c  = "../test/test.txt";
+    char*  cv = "../test/testv.txt";
+    char*  c  = "../test/test.txt";
 
     if(isFileEmpty(cv)==1)
     {

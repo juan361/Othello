@@ -33,11 +33,11 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
     int quit = 0;
 
     int round = 1;
-    int clicX = NULL;
-    int clicY = NULL;
+    int clicX = 0;
+    int clicY = 0;
 
-    int clicTabX = NULL;
-    int clicTabY = NULL;
+    int clicTabX = 0;
+    int clicTabY = 0;
 
     char counterTextW[10];
     char counterTextB[10];
@@ -47,7 +47,7 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
     int cpt2 =0;
     int win =0;
 
-  
+   // coup *chaine;
 
     CASE plate[8][8];     //On crée le plateau de jeu
     
@@ -64,7 +64,7 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
         SDL_RenderDrawLine(renderer, i*CELL_SIZE, 0, i*CELL_SIZE, 8*CELL_SIZE);
         SDL_RenderDrawLine(renderer, 0, i*CELL_SIZE, 8*CELL_SIZE, i*CELL_SIZE);
     }
-    SDL_Rect rect = {8*CELL_SIZE, 8*CELL_SIZE, 100, 100};
+    //SDL_Rect rect = {8*CELL_SIZE, 8*CELL_SIZE, 100, 100};
     SDL_SetRenderDrawColor(renderer, black_color.r,black_color.g,black_color.b,black_color.a);
 
     while (quit == 0)
@@ -207,6 +207,7 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
         }
         SDL_RenderPresent(renderer);    // On met a jours le rendu
     }
+    return 0;
 }
 
 

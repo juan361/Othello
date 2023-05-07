@@ -26,7 +26,6 @@ void clignMenu(SDL_Renderer* renderer, SDL_Event event)
 
 int main(int argc, char* args[]) 
 {
-    
     if (SDL_Init(SDL_INIT_VIDEO) != 0)      //On initialise SDL, on quitte si erreur(s)
     {
         fprintf(stderr, "Erreur SDL_Init : %s\n", SDL_GetError());

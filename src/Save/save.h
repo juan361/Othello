@@ -4,29 +4,19 @@
 #include "../Jeu/jeu.h"
 
 #include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
 //#include "../Affichage/affichage.h"
 
-typedef enum {
-    NOIR = 0,
-    BLANC = 1,
-    POTENTIEL = 2,
-    VIDE = 3
-} CELL;
 
-typedef struct plate
-{
-    CELL pion;
-    int posX;
-    int posY;
-    int poids;
-}CASE;
 
-typedef struct noeud
+
+typedef struct coup
 {
     int tour;
-    int** plateau;
-    coup* suivant;
-    coup* prec;
+    int plateau;
+   struct coup* suivant;
+   struct coup* prec;
 }coup;
 
 int retour_plateau(CASE plateau[8][8]);
@@ -35,7 +25,7 @@ void save_coup(coup* chaine, CASE plate[8][8]);
 
 void sauvegarde_txt(coup* c);
 
-void retour_coup(coup c);
+void retour_coup(coup c,CASE plateau[8][8]);
 
 void charger_partie(int tab[8][8], CASE plate[8][8]);
 

@@ -429,10 +429,13 @@ int cptCaseColor (CASE plateau[8][8],int Color)
                 caseNoir++;
         }
     }
-    if (Color == BLANC)
+    if (Color == BLANC) {
         return(caseBlanche);
-    else if (Color == NOIR)
+    }
+    if (Color == NOIR) {
         return(caseNoir);
+    }
+        return(Color);
 }
 
 

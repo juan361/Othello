@@ -1,6 +1,5 @@
-#ifndef JEU_H
 #define JEU_H
-
+#include <stdio.h>
 
 //#include "../Save/save.h"
 
@@ -48,4 +47,4 @@ int checkWinGame(CASE plateau[8][8], int cptSkipTurn);
 int cptCase (CASE plateau[8][8]);
 int cptCaseColor (CASE plateau[8][8],int Color);
 
-#endif
+
