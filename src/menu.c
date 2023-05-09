@@ -1,7 +1,8 @@
 //gcc menu2.c -o menu -lSDL2 -lSDL2_ttf -lSDL2_image
 
 
-
+//#include <windows.h>
+//#include <curl/curl.h>
 #include "Affichage/affichage.h"
 
 #define SCREEN_WIDTH 940
@@ -97,7 +98,7 @@ int main(int argc, char* args[])
                 if (x >= 285 && x <= 655 && y >= 320 && y <= 400)
                 {
                     printf("L'option Nouvelle partie a été sélectionnée !\n");
-                    int game = gameStart(window,renderer,event,font);
+                    int game = gameStart(/*window,*/renderer,event,font);
                     if( game ==1)
                         goto Quit;
                     if(game==2)
@@ -110,8 +111,12 @@ int main(int argc, char* args[])
                 else if (x >= 285 && x <= 655 && y >= 535 && y <= 613)
                 {
                     printf("L'option regles a été sélectionnée !\n");
+                    system("firefox https://www.regledujeu.fr/othello/");
+                    
                 }
                 
+
+
             }
             else if (event.type == SDL_MOUSEMOTION)
             {

@@ -8,16 +8,14 @@
 #include <sys/types.h>
 //#include "../Affichage/affichage.h"
 
-
-
 typedef struct coup
 {
     int tour;
-    int plateau;
+    int** plateau;
     struct coup* prec;
 }coup;
 
-int** retour_plateau(CASE** tab[8][8]);
+int** retour_plateau(CASE tab[8][8]);
 /**
  * @brief il va retourner le  l'état de chaque case au plateau. supposé être un tableau de 64 chiffres
  * @param 
@@ -25,8 +23,10 @@ int** retour_plateau(CASE** tab[8][8]);
 
 int isFileEmpty(char* filename);
 /**
- * @brief prg qui retour un entier pour saboir si le fichier est vide ou non
- * si 1 fichier vide, si 0 pas vide, si -1 erreur
+ * @brief prg qui retour un entier pour savoir si le fichier est vide ou non
+ * @return 1 : fichier vide
+ * @return 0 : pas vide
+ * @return -1 : erreur
 */
 
 coup save_coup(coup* chaine, CASE plate[8][8]);
@@ -39,13 +39,13 @@ void sauvegarde_txt(coup* c);
  * @brief nous allons sauvegarder tout les coups de la fin au début dans le fichier. 
 */
 
-CASE** retour_coup(coup c);
+void retour_coup(coup c,CASE plateau[8][8]);
 /**
  * @brief pour le coup en arrière, qui utilise charger partie
 */
 
-CASE** charger_partie(coup c);
+void charger_partie(int tab[8][8], CASE plate[8][8]);
 /**
  * @brief retourne un CASE avec tout les état du plate comme ça on a qu'à faire un init cell avec le CASE déjà prêt
 */
-#endif;
+#endif

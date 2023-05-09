@@ -34,9 +34,21 @@ void drawCARE(SDL_Renderer *renderer, int x, int y, int LONG, SDL_Color color);
  * @param y : position y du coin haut gauche du carré
  */
 
-int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Font* font);
+int gameStart(SDL_Renderer *renderer,SDL_Event event ,TTF_Font* font);
+/**
+ * @brief La fonction gameStart permet d'afficher le plateau et de modifier ce dernier quand on clique sur les bonne cases, il sert d'interface home machine au jeu
+ * @param renderer : prend le pointeur sur rendu en entrée pour pouvoir le modifier
+ */
 
 void afficherTexte(SDL_Renderer* renderer, const char* texte, int x, int y, TTF_Font* font, SDL_Color color) ;
+/**
+ * @brief 
+ * @param renderer : prend le pointeur sur rendu en entrée pour pouvoir le modifier
+ */
 void chargerEtAfficherImage(SDL_Renderer* renderer, const char* imagePath, int x, int y) ;
+/**
+ * @brief 
+ * @param renderer : prend le pointeur sur rendu en entrée pour pouvoir le modifier
+ */
 
 #endif

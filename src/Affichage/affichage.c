@@ -28,7 +28,7 @@ void drawCARE(SDL_Renderer *renderer, int x, int y, int LONG, SDL_Color color)
 
 }
 
-int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Font* font)
+int gameStart(SDL_Renderer *renderer,SDL_Event event ,TTF_Font* font)
 {
     int quit = 0;
 
@@ -52,8 +52,6 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
     CASE plate[8][8];     //On crée le plateau de jeu
     
     initCell(plate);
-    //initCell2(plate);
-    possibility(plate,playerColor(round),advColor(playerColor(round)));
 
     SDL_SetRenderDrawColor(renderer, background_color.r, background_color.g, background_color.b, background_color.a);
     SDL_RenderClear(renderer);      //On met le fond 
@@ -95,21 +93,17 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
                         //printf("DEBUG : clic gauche détecté à la position (%d, %d)\n", clicX, clicY);
                         if (clicX < 8*CELL_SIZE)
                         {
-                            
                             if (plate[clicX/CELL_SIZE][clicY/CELL_SIZE].pion==POTENTIEL)
                             {
                                 cpt2=0;
                                 if (round%2 == 1)
-                                    //possibility(plate,BLANC,NOIR);
                                     plate[clicX/CELL_SIZE][clicY/CELL_SIZE].pion=NOIR;
                                 if (round%2 == 0)
-                                    //possibility(plate,NOIR,BLANC);
                                     plate[clicX/CELL_SIZE][clicY/CELL_SIZE].pion=BLANC;
                                 clicTabX=clicX;
                                 clicTabY=clicY;
                                 round ++;
-                                printf("DEBUG : round (%d)\n", round);
-                                
+                                //printf("DEBUG : round (%d)\n", round); 
                             }
                         }
                         else if (clicX > 850 && clicX < 900 && clicY > 550 && clicY < 600)
@@ -117,6 +111,9 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
                             printf("Home\n");
                             return 2;
                         }
+                        else if (clicX > 679 && clicX < 740 && clicY > 557 && clicY < 595)
+                            printf("Undo\n");
+                            
                     }
                     break;
                 default:
@@ -130,7 +127,7 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
         if (checkPlayable(plate)==0 /*&& cpt2==0*/)
         {
             cpt++;
-            cpt2++;
+            //cpt2++;
             round++;
             printf("DEBUG : cpt* (%d)\n", cpt);
             printf("tour passé\n" );
@@ -139,7 +136,7 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
         else if (checkPlayable(plate)==1/* && cpt2==0*/)
         {
             cpt=0;
-            cpt2++;
+            //cpt2++;
             //printf("DEBUG : cpt (%d)\n", cpt);
 
         }
@@ -209,9 +206,6 @@ int gameStart(SDL_Window *window,SDL_Renderer *renderer,SDL_Event event ,TTF_Fon
     }
     return 0;
 }
-
-
-
 
 
 void afficherTexte(SDL_Renderer* renderer, const char* texte, int x, int y, TTF_Font* font, SDL_Color color) {

@@ -21,27 +21,6 @@ void initCell(CASE plate [8][8])
 }
 
 
-void initCell2(CASE plate [8][8])
-{
-    for (int i = 0; i < 8; i++)
-    {
-        for (int j = 0; j < 8; j++)
-        {
-            plate[i][j].pion = VIDE;
-            plate[i][j].posX= i;
-            plate[i][j].posY= j;
-        }
-    }
-    plate[3][5].pion = NOIR;        //On place les 4 pions de départ
-    plate[4][5].pion = NOIR ;
-    plate[3][6].pion = NOIR;
-    plate[4][6].pion = NOIR;
-    //plate[4][7].pion = BLANC;
-    //plate[3][7].pion = BLANC;
-    plate[1][1].pion = BLANC;
-}
-
-
 int playerColor (int round)
 {
     int couleurJoueur;
@@ -359,7 +338,7 @@ int checkWinGame(CASE plateau[8][8], int cptSkipTurn)
     int cptBlanc= 0;
     if (cptSkipTurn > 1)   //check si personne ne peux jouer (2 tours skip)
     {
-            printf("DEBUG : on ne peux plus jouer\n");
+            //printf("DEBUG : on ne peux plus jouer\n");
             return(cptCase (plateau));
     }
     for (int i = 0; i < 8; i++)     
@@ -378,17 +357,17 @@ int checkWinGame(CASE plateau[8][8], int cptSkipTurn)
     }
     if (cptVide == 0 && cptPot ==0)
     {
-        printf("DEBUG : plus de cases\n");
+        //printf("DEBUG : plus de cases\n");
         return(cptCase (plateau));
     }
     else if (cptBlanc == 0)      //check si les blanc ont été éliminé
     {
-       printf("DEBUG : plus de blanc\n");
+        //printf("DEBUG : plus de blanc\n");
         return(2);      //return 2 -> victoire Noire
     }
     else if (cptNoir == 0)       //check si les noirs ont été éliminé
     {
-        printf("DEBUG : plus de noirs\n");
+        //printf("DEBUG : plus de noirs\n");
         return(1);      // return 1 -> victoire blanche
     }
     else
