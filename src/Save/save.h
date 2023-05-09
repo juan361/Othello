@@ -17,7 +17,11 @@ typedef struct coup
     struct coup* prec;
 }coup;
 
-int retour_plateau(CASE plateau[8][8]);
+CASE** retour_plateau(int tab[8][8]);
+/**
+ * @brief il va retourner le 
+ * @param 
+*/
 
 coup save_coup(coup* chaine, CASE plate[8][8]);
 
@@ -27,4 +31,4 @@ void retour_coup(coup c,CASE plateau[8][8]);
 
 void charger_partie(int tab[8][8], CASE plate[8][8]);
 
-#endif
+#endif;
